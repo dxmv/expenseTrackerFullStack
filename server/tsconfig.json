@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"rootDir": "src",
+		"target": "es5",
+		"lib": ["es6"],
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"outDir": "build",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictFunctionTypes": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"skipLibCheck": true
+	}
+}

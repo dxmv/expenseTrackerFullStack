@@ -4,6 +4,7 @@ import userController from "../controllers/userController";
 
 export const router = express.Router();
 
+// Get user by id
 router.get("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -12,6 +13,7 @@ router.get("/:id", async (req, res) => {
 		const user = await userController.getUserById(db, id);
 		if (!user) {
 			// throw error
+			throw Error("User doesn't exist");
 		}
 		res.json({
 			success: true,
@@ -22,9 +24,9 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+// Register route
 router.post("/", async (req, res) => {
 	try {
-		console.log(req.body);
 		const { username, email, password } = req.body;
 		const db = getDb().collection("users");
 		// Save the new user to the database
@@ -34,7 +36,29 @@ router.post("/", async (req, res) => {
 			email,
 			password
 		);
+		res.json({
+			success: true,
+			data: {
+				newUser,
+			},
+		});
+	} catch (e) {
+		console.log(e);
+	}
+});
 
+// Update user
+router.put("/:id", async (req, res) => {
+	try {
+		const { username, email } = req.body;
+		const db = getDb().collection("users");
+		// Save the new user to the database
+		const newUser = await userController.updateUser(
+			db,
+			req.params.id,
+			username,
+			email
+		);
 		res.json({
 			success: true,
 			data: {

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 import { router as userRoutes } from "./routes/userRoute";
-import bodyParser from "body-parser";
+import { router as loginRoute } from "./routes/loginRoute";
 import { connect as dbConnect } from "./utils/database";
 
 const express = require("express");
@@ -16,3 +16,4 @@ dbConnect(() => {
 });
 
 app.use("/users/", userRoutes);
+app.use("/login", loginRoute);

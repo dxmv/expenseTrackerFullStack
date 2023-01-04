@@ -1,7 +1,15 @@
 import React from "react";
+import Nav from "./components/Nav";
+import "./app.css";
+import Home from "./pages/Home/Home";
 
 function App() {
-	return <div>Hello</div>;
+	return (
+		<>
+			<Nav />
+			<Home />
+		</>
+	);
 }
 
 export default App;

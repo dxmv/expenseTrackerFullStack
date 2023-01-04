@@ -52,7 +52,6 @@ router.put("/:id", async (req, res) => {
 	try {
 		const { username, email } = req.body;
 		const db = getDb().collection("users");
-		// Save the new user to the database
 		const newUser = await userController.updateUser(
 			db,
 			req.params.id,
@@ -69,3 +68,7 @@ router.put("/:id", async (req, res) => {
 		console.log(e);
 	}
 });
+
+// router.delete("/:id",async(req,res)=>{
+
+// });

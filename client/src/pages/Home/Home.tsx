@@ -1,10 +1,11 @@
 import React from "react";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
 	const user = false;
 	return (
-		<div className={`w-full px-4 ${!user ? "h-screen bg-myGray" : ""}`}>
+		<div className={`w-full ${!user ? "h-screen" : ""}`}>
 			{user ? <HomeLoggedIn /> : <HomeLoggedOut />}
 		</div>
 	);
@@ -15,13 +16,24 @@ const HomeLoggedIn = () => {
 };
 
 const HomeLoggedOut = () => {
+	const navigate = useNavigate();
+	const handleClick = () => {
+		navigate("/sign_up");
+	};
 	return (
-		<div className="flex w-full h-screen justify-center items-center flex-col">
+		<div
+			className="flex w-full h-full justify-center items-center flex-col px-4"
+			style={{
+				background:
+					"linear-gradient(180deg, rgba(69,73,85,1) 0%, rgba(13,10,11,1) 99%)",
+			}}
+		>
 			<div className="grid grid-cols-2 gap-4">
-				<div>
+				<div className="flex justify-center items-center">
 					<img
-						src="https://www.lifewire.com/thmb/EUmRZwLi1DvEROoPcp3Nt-YZtuw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/womanonspreadsheet-183673d763a642f694a0f658c969aaa9.jpg"
+						src="https://www.workitdaily.com/media-library/woman-using-excel-to-make-a-spreadsheet-on-her-computer.jpg?id=32107297&width=600&height=400&coordinates=0%2C0%2C0%2C0"
 						alt="Cover"
+						className="rounded-md shadow-md shadow-darkGreen"
 					/>
 				</div>
 				<div className="flex flex-col">
@@ -38,7 +50,7 @@ const HomeLoggedOut = () => {
 					<Button
 						text="Start now"
 						className="text-myWhite bg-lightGreen rounded-md self-start shadow-myWhite shadow-sm"
-						onClick={() => console.log("redirect")}
+						onClick={handleClick}
 					/>
 				</div>
 			</div>

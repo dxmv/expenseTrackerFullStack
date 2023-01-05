@@ -1,6 +1,7 @@
 import express from "express";
 import { getDb } from "../utils/database";
 import userController from "../controllers/userController";
+import passport from "passport";
 
 export const router = express.Router();
 
@@ -48,22 +49,24 @@ router.post("/", async (req, res) => {
 });
 
 // Update user
-router.put("/:id", async (req, res) => {
+router.put("/", passport.authenticate("local"), async (req, res) => {
 	try {
 		const { username, email } = req.body;
-		const db = getDb().collection("users");
-		const newUser = await userController.updateUser(
-			db,
-			req.params.id,
-			username,
-			email
-		);
-		res.json({
-			success: true,
-			data: {
-				newUser,
-			},
-		});
+		const user: any = req.user;
+		console.log(user);
+		// const db = getDb().collection("users");
+		// const newUser = await userController.updateUser(
+		// 	db,
+		// 	req.params._id,
+		// 	username,
+		// 	email
+		// );
+		// res.json({
+		// 	success: true,
+		// 	data: {
+		// 		newUser,
+		// 	},
+		// });
 	} catch (e) {
 		console.log(e);
 	}

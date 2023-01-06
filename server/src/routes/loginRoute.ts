@@ -1,6 +1,7 @@
 import express from "express";
 import { getDb } from "../utils/database";
 import bcrypt from "bcrypt";
+import newJWT from "../utils/newJWT";
 
 export const router = express.Router();
 
@@ -20,7 +21,7 @@ router.post("/", async (req, res) => {
 
 		res.json({
 			success: true,
-			data: { zoran: "kizo" },
+			data: { jwt: newJWT(user) },
 		});
 	} catch (e) {
 		console.log(e);

@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-	const user = false;
+	const user = true;
 	return (
 		<div className={`w-full ${!user ? "h-screen" : ""}`}>
 			{user ? <HomeLoggedIn /> : <HomeLoggedOut />}
@@ -12,7 +12,11 @@ export default function Home() {
 }
 
 const HomeLoggedIn = () => {
-	return <p>Logged</p>;
+	return (
+		<div className="px-4 py-20">
+			<div>Calendar</div>
+		</div>
+	);
 };
 
 const HomeLoggedOut = () => {

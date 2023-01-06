@@ -49,28 +49,31 @@ router.post("/", async (req, res) => {
 });
 
 // Update user
-router.put("/", passport.authenticate("local"), async (req, res) => {
-	try {
-		const { username, email } = req.body;
-		const user: any = req.user;
-		console.log(user);
-		// const db = getDb().collection("users");
-		// const newUser = await userController.updateUser(
-		// 	db,
-		// 	req.params._id,
-		// 	username,
-		// 	email
-		// );
-		// res.json({
-		// 	success: true,
-		// 	data: {
-		// 		newUser,
-		// 	},
-		// });
-	} catch (e) {
-		console.log(e);
+router.put(
+	"/",
+	passport.authenticate("jwt", { session: false }),
+	async (req, res) => {
+		try {
+			const { username, email } = req.body;
+			console.log(req.user);
+			// const db = getDb().collection("users");
+			// const newUser = await userController.updateUser(
+			// 	db,
+			// 	req.params._id,
+			// 	username,
+			// 	email
+			// );
+			// res.json({
+			// 	success: true,
+			// 	data: {
+			// 		newUser,
+			// 	},
+			// });
+		} catch (e) {
+			console.log(e);
+		}
 	}
-});
+);
 
 // router.delete("/:id",async(req,res)=>{
 

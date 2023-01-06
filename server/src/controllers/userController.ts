@@ -26,14 +26,11 @@ const updateUser = async (
 	username: string,
 	email: string
 ) => {
-	if ((await checkUsername(db, username)) && (await checkEmail(db, email))) {
-		const user: Document = await db.findOneAndUpdate(
-			{ _id: new ObjectId(id) },
-			{ $set: { email: email, username: username } }
-		);
-		return await getUserById(db, id);
-	}
-	return null;
+	const user: Document = await db.findOneAndUpdate(
+		{ _id: new ObjectId(id) },
+		{ $set: { email: email, username: username } }
+	);
+	return await getUserById(db, id);
 };
 
 const checkUsername = async (

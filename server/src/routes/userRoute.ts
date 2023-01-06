@@ -2,8 +2,19 @@ import express from "express";
 import { getDb } from "../utils/database";
 import userController from "../controllers/userController";
 import passport from "passport";
+import isAdmin from "../middleware/isAdmin";
 
 export const router = express.Router();
+
+// // Get all users
+// router.get(
+// 	"/",
+// 	passport.authenticate("jwt", { session: false }),
+// 	isAdmin,
+// 	async (req, res) => {
+// 		console.log("zoki");
+// 	}
+// );
 
 // Get user by id
 router.get("/:id", async (req, res) => {
@@ -18,7 +29,7 @@ router.get("/:id", async (req, res) => {
 		}
 		res.json({
 			success: true,
-			data: { user },
+			data: { ...user },
 		});
 	} catch (e) {
 		console.log(e);
@@ -39,9 +50,7 @@ router.post("/", async (req, res) => {
 		);
 		res.json({
 			success: true,
-			data: {
-				newUser,
-			},
+			data: { ...newUser },
 		});
 	} catch (e) {
 		console.log(e);
@@ -55,20 +64,18 @@ router.put(
 	async (req, res) => {
 		try {
 			const { username, email } = req.body;
-			console.log(req.user);
-			// const db = getDb().collection("users");
-			// const newUser = await userController.updateUser(
-			// 	db,
-			// 	req.params._id,
-			// 	username,
-			// 	email
-			// );
-			// res.json({
-			// 	success: true,
-			// 	data: {
-			// 		newUser,
-			// 	},
-			// });
+			const user: any = req.user;
+			const db = getDb().collection("users");
+			const newUser = await userController.updateUser(
+				db,
+				user._id,
+				username,
+				email
+			);
+			res.json({
+				success: true,
+				data: { ...newUser },
+			});
 		} catch (e) {
 			console.log(e);
 		}

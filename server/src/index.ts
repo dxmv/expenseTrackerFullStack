@@ -2,6 +2,7 @@
 require("dotenv").config();
 import { router as userRoutes } from "./routes/userRoute";
 import { router as loginRoute } from "./routes/loginRoute";
+import { router as expenseRoute } from "./routes/expenseRoute";
 import { connect as dbConnect } from "./utils/database";
 import passport from "passport";
 import expressSession from "express-session";
@@ -28,6 +29,7 @@ dbConnect(() => {
 	passportConfig(passport);
 
 	app.use("/users/", userRoutes);
+	app.use("/expenses/", expenseRoute);
 	app.use("/login", loginRoute);
 
 	app.listen(8080, () => {

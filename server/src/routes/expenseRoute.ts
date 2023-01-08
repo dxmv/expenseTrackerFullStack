@@ -15,7 +15,7 @@ router.get(
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
-			const expenses = await expenseController.getAllExpenses(db, user._id);
+			const expenses = await expenseController.getAll(db, user._id);
 			res.json({
 				success: true,
 				data: { ...expenses },
@@ -43,17 +43,9 @@ router.post(
 					today.getDate(),
 				];
 			}
-			const expense = await expenseController.createNewExpense(
+			const expense = await expenseController.create(
 				db,
-				new Expense(
-					new ObjectId(user._id),
-					title,
-					description,
-					price,
-					year,
-					month,
-					date
-				)
+				new Expense(user._id, title, description, price, year, month, date)
 			);
 			res.json({
 				success: true,
@@ -72,8 +64,18 @@ router.put(
 	async (req, res) => {
 		try {
 			const user: any = req.user;
-			const db = getDb().collection("users");
-			// Check if user with the given username exists
+			const db = getDb().collection("expenses");
+			let { title, description, price } = req.body;
+			const expense = await expenseController.update(
+				db,
+				user._id,
+				req.params.expenseId,
+				{ title, description, price }
+			);
+			res.json({
+				success: true,
+				data: { ...expense },
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -87,8 +89,25 @@ router.delete(
 	async (req, res) => {
 		try {
 			const user: any = req.user;
-			const db = getDb().collection("users");
-			// Check if user with the given username exists
+			const db = getDb().collection("expenses");
+			const result = await expenseController.delete(
+				db,
+				user._id,
+				req.params.expenseId
+			);
+			if (result) {
+				res.json({
+					success: true,
+					data: {
+						message: `Successfully deleted entry with ID: ${req.params.expenseId}`,
+					},
+				});
+			} else {
+				res.json({
+					success: false,
+					data: { message: `There was an error` },
+				});
+			}
 		} catch (e) {
 			console.log(e);
 		}

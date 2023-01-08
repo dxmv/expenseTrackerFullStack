@@ -103,10 +103,7 @@ router.delete(
 					},
 				});
 			} else {
-				res.json({
-					success: false,
-					data: { message: `There was an error` },
-				});
+				throw new Error("Error while deleting");
 			}
 		} catch (e) {
 			console.log(e);

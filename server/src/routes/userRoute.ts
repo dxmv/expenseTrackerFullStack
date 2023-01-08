@@ -21,10 +21,8 @@ router.get("/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
 		const db = getDb().collection("users");
-		// Get the user with the specified ID from the database
 		const user = await userController.getUserById(db, id);
 		if (!user) {
-			// throw error
 			throw Error("User doesn't exist");
 		}
 		res.json({

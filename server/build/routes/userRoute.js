@@ -78,7 +78,6 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
             case 1:
                 user = _a.sent();
                 if (!user) {
-                    // throw error
                     throw Error("User doesn't exist");
                 }
                 res.json({

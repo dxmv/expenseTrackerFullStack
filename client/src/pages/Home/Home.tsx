@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { getMonthNameFromNumber } from "../../utils/dateFunctions";
+import NewExpenseForm from "../../components/NewExpenseForm";
 
 export default function Home() {
 	const user = true;
@@ -12,9 +14,29 @@ export default function Home() {
 }
 
 const HomeLoggedIn = () => {
+	const [date, setDate] = useState<Date | null>();
+
+	useEffect(() => {
+		setDate(new Date());
+	}, []);
+
+	if (!date) {
+		return <>a</>;
+	}
+
 	return (
 		<div className="px-4 py-20">
-			<div>Calendar</div>
+			<div className="grid gap-1" style={{ gridTemplateColumns: "2fr 1fr" }}>
+				<div>
+					<p className="font-bold text-3xl mb-4">Today's expenses</p>
+				</div>
+				<div>
+					<p className="font-bold text-3xl mb-4">Add a new expense</p>
+					<NewExpenseForm />
+				</div>
+			</div>
+			<p>This week</p>
+			<p>This month - {getMonthNameFromNumber(date.getMonth())}</p>
 		</div>
 	);
 };
@@ -41,9 +63,9 @@ const HomeLoggedOut = () => {
 					/>
 				</div>
 				<div className="flex flex-col">
-					<h1 className="mb-5 text-3xl text-lightGreen font-bold">
+					<p className="mb-5 text-3xl text-lightGreen font-bold">
 						Expense tracking, but fun
-					</h1>
+					</p>
 					<p className="text-myWhite text-lg mb-10 leading-6 font-medium w-full">
 						Do you ever wonder where does all of your money go at the end of
 						each month? Well, I was in the same boat so I decided to make an

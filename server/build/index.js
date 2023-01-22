@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 var userRoute_1 = require("./routes/userRoute");
 var loginRoute_1 = require("./routes/loginRoute");
+var expenseRoute_1 = require("./routes/expenseRoute");
 var database_1 = require("./utils/database");
 var passport_1 = __importDefault(require("passport"));
 var express_session_1 = __importDefault(require("express-session"));
@@ -29,6 +30,7 @@ var app = (0, express_1.default)();
     app.use(passport_1.default.session());
     (0, passportConfig_1.default)(passport_1.default);
     app.use("/users/", userRoute_1.router);
+    app.use("/expenses/", expenseRoute_1.router);
     app.use("/login", loginRoute_1.router);
     app.listen(8080, function () {
         console.log("Server is listening on port ".concat(process.env.PORT || 8080));

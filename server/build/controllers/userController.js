@@ -42,88 +42,96 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongodb_1 = require("mongodb");
 var User_1 = __importDefault(require("../models/User"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
-var getUserById = function (db, id) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/, db.findOne({ _id: new mongodb_1.ObjectId(id) })];
-}); }); };
-var createUser = function (db, username, email, password) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0:
-                _a = User_1.default.bind;
-                return [4 /*yield*/, checkUsername(db, username)];
-            case 1:
-                _b = [void 0, (_d.sent()) ? username : ""];
-                return [4 /*yield*/, checkEmail(db, email)];
-            case 2:
-                _b = _b.concat([(_d.sent()) ? email : ""]);
-                return [4 /*yield*/, checkPassword(db, password)];
-            case 3:
-                if (!(_d.sent())) return [3 /*break*/, 5];
-                return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
-            case 4:
-                _c = _d.sent();
-                return [3 /*break*/, 6];
-            case 5:
-                _c = "";
-                _d.label = 6;
-            case 6:
-                user = new (_a.apply(User_1.default, _b.concat([_c])))();
-                return [4 /*yield*/, db.insertOne(user)];
-            case 7:
-                _d.sent();
-                return [2 /*return*/, user];
-        }
-    });
-}); };
-var updateUser = function (db, id, username, email) { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
-    return __generator(this, function (_a) {
+var userController = {
+    getUserById: function (db, id) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db.findOneAndUpdate({ _id: new mongodb_1.ObjectId(id) }, { $set: { email: email, username: username } })];
-            case 1:
-                user = _a.sent();
-                return [4 /*yield*/, getUserById(db, id)];
-            case 2: return [2 /*return*/, _a.sent()];
+            case 0: return [4 /*yield*/, db.findOne({ _id: new mongodb_1.ObjectId(id) })];
+            case 1: return [2 /*return*/, _a.sent()];
         }
-    });
-}); };
-var checkUsername = function (db, username) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db.findOne({ username: username })];
-            case 1:
-                if (_a.sent()) {
-                    throw new Error("Username is already in use");
-                }
-                if (username.length < 4 || username.length > 25) {
-                    throw new Error("Username must be between 4 and 25 chars long");
-                }
-                return [2 /*return*/, true];
-        }
-    });
-}); };
-var checkEmail = function (db, email) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db.findOne({ email: email })];
-            case 1:
-                if (_a.sent()) {
-                    throw new Error("Username is already in use");
-                }
-                if (email.length < 4 || email.length > 25) {
-                    throw new Error("Username must be between 4 and 25 chars long");
-                }
-                return [2 /*return*/, true];
-        }
-    });
-}); };
-var checkPassword = function (db, password) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        if (password.length < 8) {
-            throw new Error("Password must be at least 8 chars long");
-        }
-        return [2 /*return*/, true];
-    });
-}); };
-exports.default = { getUserById: getUserById, createUser: createUser, updateUser: updateUser };
+    }); }); },
+    createUser: function (db, username, email, password) { return __awaiter(void 0, void 0, void 0, function () {
+        var user, _a, _b, _c, res;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0:
+                    _a = User_1.default.bind;
+                    return [4 /*yield*/, userController.checkUsername(db, username)];
+                case 1:
+                    _b = [void 0, (_d.sent()) ? username : ""];
+                    return [4 /*yield*/, userController.checkEmail(db, email)];
+                case 2:
+                    _b = _b.concat([(_d.sent()) ? email : ""]);
+                    return [4 /*yield*/, userController.checkPassword(db, password)];
+                case 3:
+                    if (!(_d.sent())) return [3 /*break*/, 5];
+                    return [4 /*yield*/, bcrypt_1.default.hash(password, 10)];
+                case 4:
+                    _c = _d.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    _c = "";
+                    _d.label = 6;
+                case 6:
+                    user = new (_a.apply(User_1.default, _b.concat([_c])))();
+                    user.expenses = [];
+                    return [4 /*yield*/, db.insertOne(user)];
+                case 7:
+                    res = _d.sent();
+                    return [4 /*yield*/, userController.getUserById(db, res.insertedId)];
+                case 8: return [2 /*return*/, _d.sent()];
+            }
+        });
+    }); },
+    updateUser: function (db, id, username, email) { return __awaiter(void 0, void 0, void 0, function () {
+        var user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, db.findOneAndUpdate({ _id: new mongodb_1.ObjectId(id) }, { $set: { email: email, username: username } })];
+                case 1:
+                    user = _a.sent();
+                    return [4 /*yield*/, userController.getUserById(db, id)];
+                case 2: return [4 /*yield*/, _a.sent()];
+                case 3: return [2 /*return*/, _a.sent()];
+            }
+        });
+    }); },
+    checkUsername: function (db, username) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, db.findOne({ username: username })];
+                case 1:
+                    if (_a.sent()) {
+                        throw new Error("Username is already in use");
+                    }
+                    if (username.length < 4 || username.length > 25) {
+                        throw new Error("Username must be between 4 and 25 chars long");
+                    }
+                    return [2 /*return*/, true];
+            }
+        });
+    }); },
+    checkEmail: function (db, email) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, db.findOne({ email: email })];
+                case 1:
+                    if (_a.sent()) {
+                        throw new Error("Username is already in use");
+                    }
+                    if (email.length < 4 || email.length > 25) {
+                        throw new Error("Username must be between 4 and 25 chars long");
+                    }
+                    return [2 /*return*/, true];
+            }
+        });
+    }); },
+    checkPassword: function (db, password) { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            if (password.length < 8) {
+                throw new Error("Password must be at least 8 chars long");
+            }
+            return [2 /*return*/, true];
+        });
+    }); },
+};
+exports.default = userController;

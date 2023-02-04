@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { getMonthNameFromNumber } from "../../utils/dateFunctions";
 import NewExpenseForm from "../../components/NewExpenseForm";
+import Week from "../../components/Calendar/Week";
 
 export default function Home() {
 	const user = true;
@@ -36,6 +37,7 @@ const HomeLoggedIn = () => {
 				</div>
 			</div>
 			<p>This week</p>
+			<Week />
 			<p>This month - {getMonthNameFromNumber(date.getMonth())}</p>
 		</div>
 	);

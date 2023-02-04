@@ -3,21 +3,12 @@ import Expense from "../models/Expense";
 import { IExpense } from "../types";
 
 const expenseController = {
-	getAll: async (db: Collection<Document>, userId: string) =>
-		await db.find({ userId: userId }),
+	getAll: async (db: Collection<Document>, userId: string | ObjectId) =>
+		await db.find({ userId: new ObjectId(userId) }).toArray(),
 
 	getById: async (db: Collection<Document>, id: string | ObjectId) =>
 		await db.findOne({ _id: new ObjectId(id) }),
 	create: async (db: Collection<Document>, expense: Expense) => {
-		if (expense.year < 2023 || expense.year > 2050) {
-			throw new Error("Invalid year");
-		}
-		if (expense.month < 1 || expense.month > 12) {
-			throw new Error("Invalid month");
-		}
-		if (expense.date < 1 || expense.date > 31) {
-			throw new Error("Invalid date");
-		}
 		const res = await db.insertOne(expense);
 		return await expenseController.getById(db, res.insertedId);
 	},

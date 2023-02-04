@@ -3,7 +3,7 @@ import { getDb } from "../utils/database";
 import passport from "passport";
 import expenseController from "../controllers/expenseController";
 import Expense from "../models/Expense";
-import { ObjectId } from "mongodb";
+import { Document, ObjectId, WithId } from "mongodb";
 
 export const router = express.Router();
 
@@ -15,7 +15,21 @@ router.get(
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
-			const expenses = await expenseController.getAll(db, user._id);
+			let expenses = await expenseController.getAll(db, user._id);
+			if (req.query.filter === "week") {
+				const oneWeekAgo = new Date();
+				oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+				expenses = expenses.filter(
+					(obj: WithId<Document>) => obj.date > oneWeekAgo
+				);
+			}
+			if (req.query.filter === "month") {
+				const oneMonthAgo = new Date();
+				oneMonthAgo.setDate(oneMonthAgo.getDate() - 31);
+				expenses = expenses.filter(
+					(obj: WithId<Document>) => obj.date > oneMonthAgo
+				);
+			}
 			res.json({
 				success: true,
 				data: { ...expenses },
@@ -34,18 +48,13 @@ router.post(
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
-			let { title, description, year, month, date, price } = req.body;
-			if (!year || !month || !date) {
-				const today = new Date();
-				[year, month, date] = [
-					today.getFullYear(),
-					today.getMonth() + 1,
-					today.getDate(),
-				];
+			let { title, description, date, price } = req.body;
+			if (!date) {
+				date = new Date();
 			}
 			const expense = await expenseController.create(
 				db,
-				new Expense(user._id, title, description, price, year, month, date)
+				new Expense(user._id, title, description, price, date)
 			);
 			res.json({
 				success: true,

@@ -8,9 +8,7 @@ export interface IUser {
 export interface IExpense {
 	title: string;
 	description: string;
-	year: number;
-	month: number;
-	date: number;
+	date: Date;
 	price: number;
 	userId: ObjectId;
 }

@@ -15,7 +15,7 @@ const userController = {
 		const user: Document = new User(
 			(await userController.checkUsername(db, username)) ? username : "",
 			(await userController.checkEmail(db, email)) ? email : "",
-			(await userController.checkPassword(db, password))
+			(await userController.checkPassword(password))
 				? await bcrypt.hash(password, 10)
 				: ""
 		);
@@ -63,10 +63,7 @@ const userController = {
 		return true;
 	},
 
-	checkPassword: async (
-		db: Collection<Document>,
-		password: string
-	): Promise<boolean> => {
+	checkPassword: async (password: string): Promise<boolean> => {
 		if (password.length < 8) {
 			throw new Error("Password must be at least 8 chars long");
 		}

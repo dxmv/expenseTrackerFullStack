@@ -4,11 +4,13 @@ import { router as userRoutes } from "./routes/userRoute";
 import { router as loginRoute } from "./routes/loginRoute";
 import { router as expenseRoute } from "./routes/expenseRoute";
 import { connect as dbConnect } from "./utils/database";
+
 import passport from "passport";
 import expressSession from "express-session";
 import express from "express";
 import passportConfig from "./utils/passportConfig";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 const app = express();
 
 // Connect to database and then start the app
@@ -22,6 +24,16 @@ dbConnect(() => {
 			saveUninitialized: false,
 		})
 	);
+	// CORS
+	app.use(
+		cors({
+			origin: "*",
+			methods: "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE",
+			allowedHeaders: "*",
+			credentials: true,
+		})
+	);
+
 	// Passport authorization
 	app.use(cookieParser());
 	app.use(passport.initialize());

@@ -27,3 +27,9 @@ export interface Expense {
 	description?: string;
 	cost: number;
 }
+
+export interface IUser {
+	username: string;
+	password: string;
+	email: string;
+}

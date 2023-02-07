@@ -33,3 +33,7 @@ export interface IUser {
 	password: string;
 	email: string;
 }
+
+export interface IFormError {
+	form: string;
+}

@@ -3,6 +3,7 @@ import { getDb } from "../utils/database";
 import userController from "../controllers/userController";
 import passport from "passport";
 import isAdmin from "../middleware/isAdmin";
+import { NotFoundError } from "../errors/errors";
 
 export const router = express.Router();
 
@@ -12,30 +13,30 @@ export const router = express.Router();
 // 	passport.authenticate("jwt", { session: false }),
 // 	isAdmin,
 // 	async (req, res) => {
-// 		console.log("zoki");
+// 		next("zoki");
 // 	}
 // );
 
 // Get user by id
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const db = getDb().collection("users");
 		const user = await userController.getUserById(db, id);
 		if (!user) {
-			throw Error("User doesn't exist");
+			throw new NotFoundError("User doesn't exist");
 		}
 		res.json({
 			success: true,
 			data: { ...user },
 		});
 	} catch (e) {
-		console.log(e);
+		next(e);
 	}
 });
 
 // Register route
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
 	try {
 		const { username, email, password } = req.body;
 		const db = getDb().collection("users");
@@ -51,7 +52,7 @@ router.post("/", async (req, res) => {
 			data: { ...newUser },
 		});
 	} catch (e) {
-		console.log(e);
+		next(e);
 	}
 });
 
@@ -59,7 +60,7 @@ router.post("/", async (req, res) => {
 router.put(
 	"/",
 	passport.authenticate("jwt", { session: false }),
-	async (req, res) => {
+	async (req, res, next) => {
 		try {
 			const { username, email } = req.body;
 			const user: any = req.user;
@@ -75,7 +76,7 @@ router.put(
 				data: { ...newUser },
 			});
 		} catch (e) {
-			console.log(e);
+			next(e);
 		}
 	}
 );

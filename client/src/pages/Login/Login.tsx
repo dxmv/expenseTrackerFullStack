@@ -33,7 +33,6 @@ export default function Login() {
 			const result = await login(loginState);
 			console.log(result);
 		} catch (e: unknown) {
-			console.log(e);
 			setFormError(
 				setError as React.Dispatch<React.SetStateAction<IFormError>>,
 				(e as Error).message,

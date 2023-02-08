@@ -11,7 +11,7 @@ export const router = express.Router();
 router.get(
 	"/",
 	passport.authenticate("jwt", { session: false }),
-	async (req, res) => {
+	async (req, res, next) => {
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
@@ -35,7 +35,7 @@ router.get(
 				data: { ...expenses },
 			});
 		} catch (e) {
-			console.log(e);
+			next(e);
 		}
 	}
 );
@@ -44,7 +44,7 @@ router.get(
 router.post(
 	"/",
 	passport.authenticate("jwt", { session: false }),
-	async (req, res) => {
+	async (req, res, next) => {
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
@@ -61,7 +61,7 @@ router.post(
 				data: { ...expense },
 			});
 		} catch (e) {
-			console.log(e);
+			next(e);
 		}
 	}
 );
@@ -70,7 +70,7 @@ router.post(
 router.put(
 	"/:expenseId",
 	passport.authenticate("jwt", { session: false }),
-	async (req, res) => {
+	async (req, res, next) => {
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
@@ -86,7 +86,7 @@ router.put(
 				data: { ...expense },
 			});
 		} catch (e) {
-			console.log(e);
+			next(e);
 		}
 	}
 );
@@ -95,7 +95,7 @@ router.put(
 router.delete(
 	"/:expenseId",
 	passport.authenticate("jwt", { session: false }),
-	async (req, res) => {
+	async (req, res, next) => {
 		try {
 			const user: any = req.user;
 			const db = getDb().collection("expenses");
@@ -115,7 +115,7 @@ router.delete(
 				throw new Error("Error while deleting");
 			}
 		} catch (e) {
-			console.log(e);
+			next(e);
 		}
 	}
 );

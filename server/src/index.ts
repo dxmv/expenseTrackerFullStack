@@ -11,6 +11,7 @@ import express from "express";
 import passportConfig from "./utils/passportConfig";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import errorHandle from "./errors/errorHandler";
 const app = express();
 
 // Connect to database and then start the app
@@ -43,6 +44,7 @@ dbConnect(() => {
 	app.use("/users/", userRoutes);
 	app.use("/expenses/", expenseRoute);
 	app.use("/login", loginRoute);
+	app.use(errorHandle);
 
 	app.listen(8080, () => {
 		console.log(`Server is listening on port ${process.env.PORT || 8080}`);

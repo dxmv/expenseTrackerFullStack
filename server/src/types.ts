@@ -12,3 +12,7 @@ export interface IExpense {
 	price: number;
 	userId: ObjectId;
 }
+export interface IError {
+	status: number;
+	message: string;
+}

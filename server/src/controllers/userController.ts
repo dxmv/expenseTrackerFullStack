@@ -1,6 +1,7 @@
 import { Collection, Document, ObjectId } from "mongodb";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import { BadRequestError } from "../errors/errors";
 
 const userController = {
 	getUserById: async (db: Collection<Document>, id: string | ObjectId) =>
@@ -42,10 +43,10 @@ const userController = {
 		username: string
 	): Promise<boolean> => {
 		if (await db.findOne({ username: username })) {
-			throw new Error("Username is already in use");
+			throw new BadRequestError("Username is already in use");
 		}
 		if (username.length < 4 || username.length > 25) {
-			throw new Error("Username must be between 4 and 25 chars long");
+			throw new BadRequestError("Username must be between 4 and 25 chars long");
 		}
 		return true;
 	},
@@ -55,17 +56,17 @@ const userController = {
 		email: string
 	): Promise<boolean> => {
 		if (await db.findOne({ email: email })) {
-			throw new Error("Username is already in use");
+			throw new BadRequestError("Username is already in use");
 		}
 		if (email.length < 4 || email.length > 25) {
-			throw new Error("Username must be between 4 and 25 chars long");
+			throw new BadRequestError("Username must be between 4 and 25 chars long");
 		}
 		return true;
 	},
 
 	checkPassword: async (password: string): Promise<boolean> => {
 		if (password.length < 8) {
-			throw new Error("Password must be at least 8 chars long");
+			throw new BadRequestError("Password must be at least 8 chars long");
 		}
 		return true;
 	},

@@ -1,4 +1,5 @@
 import { Collection, Document, ObjectId, WithId } from "mongodb";
+import { ForbiddenError, NotFoundError } from "../errors/errors";
 import Expense from "../models/Expense";
 import { IExpense } from "../types";
 
@@ -20,7 +21,7 @@ const expenseController = {
 	) => {
 		const current = await expenseController.getById(db, id);
 		if (!current) {
-			throw new Error("There was an error, please try again");
+			throw new NotFoundError("Expense not found");
 		}
 		await expenseController.belongsToUser(userId, current);
 		await db.findOneAndUpdate(
@@ -38,7 +39,7 @@ const expenseController = {
 	delete: async (db: Collection<Document>, userId: ObjectId, id: string) => {
 		const current = await expenseController.getById(db, id);
 		if (!current) {
-			throw new Error("There was an error, please try again");
+			throw new NotFoundError("Expense not found");
 		}
 		await expenseController.belongsToUser(userId, current);
 		await db.findOneAndDelete({ _id: new ObjectId(id) });
@@ -49,7 +50,7 @@ const expenseController = {
 		expense: WithId<Document>
 	): Promise<void> => {
 		if (!userId.equals(expense.userId)) {
-			throw new Error("This expense doesn't belong to you");
+			throw new ForbiddenError();
 		}
 	},
 };

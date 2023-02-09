@@ -7,7 +7,6 @@ const errorHandle = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.log(error.stack);
 	if (error instanceof HttpError) {
 		res
 			.status(error.status)

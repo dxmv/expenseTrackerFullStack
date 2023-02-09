@@ -7,7 +7,7 @@ export default function Button({
 }: {
 	text: string;
 	className: string;
-	onClick: () => any;
+	onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any;
 }) {
 	return (
 		<button

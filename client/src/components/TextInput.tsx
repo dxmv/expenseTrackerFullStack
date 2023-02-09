@@ -4,11 +4,13 @@ export default function TextInput({
 	label,
 	password,
 	value,
+	error,
 	setValue,
 }: {
 	label: string;
 	password?: boolean;
 	value: string;
+	error: string;
 	setValue: (value: string) => void;
 }) {
 	return (
@@ -20,6 +22,7 @@ export default function TextInput({
 				value={value}
 				onChange={e => setValue(e.target.value)}
 			/>
+			<p>{error}</p>
 		</div>
 	);
 }

@@ -44,7 +44,7 @@ export default function Login() {
 				);
 			}
 			const result = await login(loginState).unwrap();
-			await setToken(result.data.token);
+			await setToken(JSON.stringify(result.data));
 			navigate("/");
 		} catch (e: unknown) {
 			setFormError(

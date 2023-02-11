@@ -8,7 +8,7 @@ export const apiSlice = createApi({
 		prepareHeaders: (headers, api) => {
 			const token = getToken();
 			if (token) {
-				headers.set("Authorization", token);
+				headers.set("Authorization", `Bearer ${JSON.parse(token).jwt}`);
 			}
 			return headers;
 		},

@@ -17,6 +17,29 @@ export const router = express.Router();
 // 	}
 // );
 
+// Get current user
+
+router.get(
+	"/current",
+	passport.authenticate("jwt", { session: false }),
+	async (req, res, next) => {
+		try {
+			const u: any = req.user;
+			const db = getDb().collection("users");
+			const user = await userController.getUserById(db, u._id);
+			if (!user) {
+				throw new NotFoundError("User doesn't exist");
+			}
+			res.json({
+				success: true,
+				data: { ...user },
+			});
+		} catch (e) {
+			next(e);
+		}
+	}
+);
+
 // Get user by id
 router.get("/:id", async (req, res, next) => {
 	try {

@@ -45,7 +45,7 @@ export default function Register() {
 					"form"
 				);
 			}
-			const result = await register(registerState).unwrap();
+			await register(registerState).unwrap();
 			navigate("/log_in");
 		} catch (e: unknown) {
 			setFormError(

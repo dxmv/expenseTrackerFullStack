@@ -19,7 +19,7 @@ router.post("/", async (req, res, next) => {
 
 		res.json({
 			success: true,
-			data: { jwt: newJWT(user) },
+			data: { jwt: newJWT(user), id: user._id },
 		});
 	} catch (e) {
 		next(e);

@@ -19,19 +19,22 @@ export interface Month {
 
 export interface Day {
 	day: number;
-	expenses: Array<Expense>;
+	expenses: Array<IExpense>;
 }
 
-export interface Expense {
+export interface IExpense {
 	title: string;
-	description?: string;
-	cost: number;
+	description: string;
+	date: string;
+	price: number;
+	userId: string;
 }
 
 export interface IUser {
 	username: string;
 	password: string;
 	email: string;
+	_id: string;
 }
 
 export interface IFormError {

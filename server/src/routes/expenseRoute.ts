@@ -32,7 +32,7 @@ router.get(
 			}
 			res.json({
 				success: true,
-				data: { ...expenses },
+				data: [...expenses],
 			});
 		} catch (e) {
 			next(e);

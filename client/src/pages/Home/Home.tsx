@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { getMonthNameFromNumber } from "../../utils/dateFunctions";
 import NewExpenseForm from "../../components/NewExpenseForm";
 import Week from "../../components/Calendar/Week";
+import { useAppSelector } from "../../redux/store";
 
 export default function Home() {
-	const user = true;
+	const user = useAppSelector(state => state.user.value);
 	return (
 		<div className={`w-full ${!user ? "h-screen" : ""}`}>
 			{user ? <HomeLoggedIn /> : <HomeLoggedOut />}
@@ -36,9 +37,12 @@ const HomeLoggedIn = () => {
 					<NewExpenseForm />
 				</div>
 			</div>
-			<p>This week</p>
-			<Week />
-			<p>This month - {getMonthNameFromNumber(date.getMonth())}</p>
+			<div>
+				<p className="font-bold text-3xl mb-4">This week</p>
+				<Week />
+			</div>
+
+			{/* <p>This month - {getMonthNameFromNumber(date.getMonth())}</p> */}
 		</div>
 	);
 };

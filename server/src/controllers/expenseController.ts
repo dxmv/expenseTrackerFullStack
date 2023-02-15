@@ -5,7 +5,10 @@ import { IExpense } from "../types";
 
 const expenseController = {
 	getAll: async (db: Collection<Document>, userId: string | ObjectId) =>
-		await db.find({ userId: new ObjectId(userId) }).toArray(),
+		await db
+			.find({ userId: new ObjectId(userId) })
+			.sort({ date: 1 })
+			.toArray(),
 
 	getById: async (db: Collection<Document>, id: string | ObjectId) =>
 		await db.findOne({ _id: new ObjectId(id) }),

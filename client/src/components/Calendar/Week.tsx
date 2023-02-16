@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useGetExpensesQuery } from "../../redux/api/expenseSlice";
 import { IExpense } from "../../types";
 import Day from "./Day";
+import { IDay } from "../../types";
+import { getDayWeekFromNumber } from "../../utils/dateFunctions";
 
 export default function Week() {
 	// GET ALL EXPENSES FOR THIS WEEK FROM BACKEND AND SHOW THEM ON THE PAGE
-	const [map, setMap] = useState<IExpense[][]>([]);
+	const [map, setMap] = useState<IDay[]>([]);
 	const { data, isError } = useGetExpensesQuery("week");
 
 	useEffect(() => {
@@ -18,7 +20,7 @@ export default function Week() {
 		const end = new Date();
 		let loop = new Date(oneWeekAgo);
 		let currentIndex = 0;
-		const newMap: IExpense[][] = [];
+		const newMap: IDay[] = [];
 		while (loop <= end) {
 			const arr: IExpense[] = [];
 			const currentDate = loop.toISOString().substring(0, 10);
@@ -32,7 +34,12 @@ export default function Week() {
 					break;
 				}
 			}
-			newMap.push(arr);
+			newMap.push({
+				date: loop.getDate().toString(),
+				fullDate: currentDate,
+				dayOfWeek: getDayWeekFromNumber(loop.getDay()),
+				expenses: arr,
+			});
 			let newDate = loop.setDate(loop.getDate() + 1);
 			loop = new Date(newDate);
 		}
@@ -40,14 +47,14 @@ export default function Week() {
 		setMap(newMap);
 	}, [data]);
 	if (!data || isError || !data.success) {
+		// Handle Error
 		return <div>Zoki</div>;
 	}
 
-	console.log(data.data);
 	return (
-		<div>
+		<div className="flex flex-row h-48">
 			{map.map((el, i) => (
-				<Day key={i} expenses={el} />
+				<Day key={i} day={el} />
 			))}
 		</div>
 	);

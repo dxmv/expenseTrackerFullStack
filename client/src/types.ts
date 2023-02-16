@@ -12,14 +12,16 @@ export type MonthName =
 	| "November"
 	| "December";
 
-export interface Month {
-	name: MonthName;
-	days: Array<Day>;
-}
+// export interface Month {
+// 	name: MonthName;
+// 	days: Array<Day>;
+// }
 
-export interface Day {
-	day: number;
-	expenses: Array<IExpense>;
+export interface IDay {
+	date: string;
+	fullDate: string;
+	dayOfWeek: string;
+	expenses: IExpense[];
 }
 
 export interface IExpense {

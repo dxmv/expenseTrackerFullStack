@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { getMonthNameFromNumber } from "../../utils/dateFunctions";
 import NewExpenseForm from "../../components/NewExpenseForm";
 import Week from "../../components/Calendar/Week";
 import { useAppSelector } from "../../redux/store";

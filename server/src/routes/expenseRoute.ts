@@ -3,9 +3,32 @@ import { getDb } from "../utils/database";
 import passport from "passport";
 import expenseController from "../controllers/expenseController";
 import Expense from "../models/Expense";
-import { Document, ObjectId, WithId } from "mongodb";
+import { Document, WithId } from "mongodb";
 
 export const router = express.Router();
+
+// Get expenses for given ISO Format date
+router.get(
+	"/:date",
+	passport.authenticate("jwt", { session: false }),
+	async (req, res, next) => {
+		try {
+			const user: any = req.user;
+			const db = getDb().collection("expenses");
+			let expenses = await expenseController.getAll(db, user._id);
+			res.json({
+				success: true,
+				data: [
+					...expenses.filter(el =>
+						req.params.date.match(el.date.toISOString().substring(0, 10))
+					),
+				],
+			});
+		} catch (e) {
+			next(e);
+		}
+	}
+);
 
 // Get all expenses for a user
 router.get(

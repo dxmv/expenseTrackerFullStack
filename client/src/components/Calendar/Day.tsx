@@ -6,7 +6,7 @@ export default function Day({ day }: { day: IDay }) {
 	return (
 		<Link
 			to={`/day/${day.fullDate}`}
-			className="border-2 h-full w-full flex-col py-3 px-4 justify-between h-48"
+			className="border-2  w-full flex-col py-3 px-4 justify-between h-52"
 		>
 			<div className="flex items-center justify-between">
 				<p className="text-2xl font-extrabold">{day.date}</p>

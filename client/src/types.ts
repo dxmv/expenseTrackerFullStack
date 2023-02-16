@@ -12,11 +12,6 @@ export type MonthName =
 	| "November"
 	| "December";
 
-// export interface Month {
-// 	name: MonthName;
-// 	days: Array<Day>;
-// }
-
 export interface IDay {
 	date: string;
 	fullDate: string;

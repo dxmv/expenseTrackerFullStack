@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useGetExpensesQuery } from "../../redux/api/expenseSlice";
-import { IExpense } from "../../types";
-import Day from "./Day";
-import { IDay } from "../../types";
+import { IDay, IExpense } from "../../types";
 import { getDayWeekFromNumber } from "../../utils/dateFunctions";
+import Day from "./Day";
 
-export default function Week() {
+export default function Month() {
 	// GET ALL EXPENSES FOR THIS WEEK FROM BACKEND AND SHOW THEM ON THE PAGE
 	const [map, setMap] = useState<IDay[]>([]);
-	const { data, isError } = useGetExpensesQuery("week");
+	const { data, isError } = useGetExpensesQuery("month");
 
 	useEffect(() => {
 		if (!data) {
 			return;
 		}
 		// Start the loop 1 week ago
-		const oneWeekAgo = new Date();
-		oneWeekAgo.setDate(oneWeekAgo.getDate() - 6);
+		const oneMonthAgo = new Date();
+		oneMonthAgo.setDate(oneMonthAgo.getDate() - 29);
 		const end = new Date();
-		let loop = new Date(oneWeekAgo);
+		let loop = new Date(oneMonthAgo);
 		let currentIndex = 0;
 		const newMap: IDay[] = [];
 		while (loop <= end) {
@@ -50,9 +49,8 @@ export default function Week() {
 		// Handle Error
 		return <div>Zoki</div>;
 	}
-
 	return (
-		<div className="flex flex-row">
+		<div className="grid" style={{ gridTemplateColumns: "repeat(7,1fr)" }}>
 			{map.map((el, i) => (
 				<Day key={i} day={el} />
 			))}

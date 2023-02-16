@@ -5,6 +5,7 @@ import { getMonthNameFromNumber } from "../../utils/dateFunctions";
 import NewExpenseForm from "../../components/NewExpenseForm";
 import Week from "../../components/Calendar/Week";
 import { useAppSelector } from "../../redux/store";
+import Month from "../../components/Calendar/Month";
 
 export default function Home() {
 	const user = useAppSelector(state => state.user.value);
@@ -37,9 +38,13 @@ const HomeLoggedIn = () => {
 					<NewExpenseForm />
 				</div>
 			</div>
-			<div>
-				<p className="font-bold text-3xl mb-4">This week</p>
+			<div className="mb-4">
+				<p className="font-bold text-3xl mb-4">Last week</p>
 				<Week />
+			</div>
+			<div>
+				<p className="font-bold text-3xl mb-4">Last month</p>
+				<Month />
 			</div>
 
 			{/* <p>This month - {getMonthNameFromNumber(date.getMonth())}</p> */}

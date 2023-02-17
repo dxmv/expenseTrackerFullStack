@@ -54,7 +54,7 @@ export default function Week() {
 	return (
 		<div className="flex flex-row">
 			{map.map((el, i) => (
-				<Day key={i} day={el} />
+				<Day key={i} day={el} index={i} />
 			))}
 		</div>
 	);

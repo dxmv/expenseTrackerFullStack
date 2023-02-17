@@ -9,6 +9,7 @@ import { getToken } from "./utils/jwtTokenHandle";
 import { useAppDispatch } from "./redux/store";
 import { useLazyGetCurrentUserQuery } from "./redux/api/userSlice";
 import { setUser } from "./redux/reducers/userSlice";
+import DatePage from "./pages/Date/DatePage";
 
 const router = createBrowserRouter([
 	{
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
 	{
 		path: "/sign_up",
 		element: <Register />,
+	},
+	{
+		path: "/day/:date",
+		element: (
+			<>
+				<Nav />
+				<DatePage />
+			</>
+		),
 	},
 ]);
 

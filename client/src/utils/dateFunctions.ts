@@ -31,3 +31,6 @@ export const getDayWeekFromNumber = (num: number): string => {
 	const res = map.get(num);
 	return res ? res : "";
 };
+
+export const ISOstringToPrettier = (date?: string): string =>
+	date ? date.split("-").reverse().join("/") : "";

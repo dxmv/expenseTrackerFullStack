@@ -42,7 +42,6 @@ export default function Month() {
 			let newDate = loop.setDate(loop.getDate() + 1);
 			loop = new Date(newDate);
 		}
-		console.log(newMap);
 		setMap(newMap);
 	}, [data]);
 	if (!data || isError || !data.success) {

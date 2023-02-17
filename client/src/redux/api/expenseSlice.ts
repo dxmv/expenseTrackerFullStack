@@ -14,8 +14,16 @@ export const expenseApi = apiSlice.injectEndpoints({
 				url: `${MAIN_URL}?filter=${filter && filter}`,
 			}),
 		}),
+		getExpensesByDate: build.query<
+			{ success: boolean; data: IExpense[] },
+			string
+		>({
+			query: body => ({
+				url: `${MAIN_URL}/${body}`,
+			}),
+		}),
 	}),
 	overrideExisting: false,
 });
 
-export const { useGetExpensesQuery } = expenseApi;
+export const { useGetExpensesQuery, useGetExpensesByDateQuery } = expenseApi;

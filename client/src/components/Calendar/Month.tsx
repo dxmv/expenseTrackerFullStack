@@ -51,7 +51,12 @@ export default function Month() {
 	return (
 		<div className="grid" style={{ gridTemplateColumns: "repeat(7,1fr)" }}>
 			{map.map((el, i) => (
-				<Day key={i} day={el} index={i} />
+				<Day
+					key={i}
+					day={el}
+					index={i}
+					differentColor={(i > 6 && i < 14) || (i > 20 && i < 28)}
+				/>
 			))}
 		</div>
 	);

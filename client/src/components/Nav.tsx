@@ -5,17 +5,22 @@ import { useAppSelector } from "../redux/store";
 export default function Nav() {
 	const user = useAppSelector(state => state.user.value);
 	return (
-		<div className="w-screen flex justify-between bg-transparent px-4 py-3 items-center fixed">
+		<div className="w-screen flex justify-between bg-transparent px-4 py-3 items-center fixed bg-myWhite">
 			<img src={"/images/cashflow.png"} alt="logo" />
 			<>
 				{user ? (
-					<div>
+					<div className="flex w-1/12 justify-between">
 						<Link
 							to={`/profile/${user._id}`}
 							className="text-myBlack font-bold text-lg"
 						>
-							Logged in as{" "}
-							<span className="text-lightGreen">{user.username}</span>
+							Expenses
+						</Link>
+						<Link
+							to={`/profile/${user._id}`}
+							className="text-myBlack font-bold text-lg"
+						>
+							Profile
 						</Link>
 					</div>
 				) : (

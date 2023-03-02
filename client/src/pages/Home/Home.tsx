@@ -27,8 +27,11 @@ const HomeLoggedIn = () => {
 	}
 
 	return (
-		<div className="px-4 py-20">
-			<div className="grid gap-1" style={{ gridTemplateColumns: "2fr 1fr" }}>
+		<div className="px-4 py-20 bg-myWhite h-screen">
+			<div
+				className="grid gap-1 mb-8"
+				style={{ gridTemplateColumns: "2fr 1fr" }}
+			>
 				<div>
 					<p className="font-bold text-3xl mb-4">Today's expenses</p>
 				</div>
@@ -41,12 +44,10 @@ const HomeLoggedIn = () => {
 				<p className="font-bold text-3xl mb-4">Last week</p>
 				<Week />
 			</div>
-			<div>
+			{/* <div>
 				<p className="font-bold text-3xl mb-4">Last month</p>
 				<Month />
-			</div>
-
-			{/* <p>This month - {getMonthNameFromNumber(date.getMonth())}</p> */}
+			</div> */}
 		</div>
 	);
 };

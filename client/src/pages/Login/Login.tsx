@@ -45,6 +45,7 @@ export default function Login() {
 			}
 			const result = await login(loginState).unwrap();
 			await setToken(JSON.stringify(result.data));
+			// Set user before navigating
 			navigate("/");
 		} catch (e: unknown) {
 			setFormError(

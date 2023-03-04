@@ -2,13 +2,13 @@ import React from "react";
 
 export default function TextInput({
 	label,
-	password,
+	type = "text",
 	value,
 	error,
 	setValue,
 }: {
 	label: string;
-	password?: boolean;
+	type?: "password" | "text" | "number";
 	value: string;
 	error: string;
 	setValue: (value: string) => void;
@@ -17,7 +17,7 @@ export default function TextInput({
 		<div className="flex flex-col mb-5">
 			<label className="text-lg mb-1">{label}</label>
 			<input
-				type={password ? "password" : "text"}
+				type={type}
 				className="w-full"
 				value={value}
 				onChange={e => setValue(e.target.value)}

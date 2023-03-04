@@ -103,7 +103,7 @@ export default function Register() {
 					<TextInput
 						label="Password:"
 						value={registerState.password}
-						password={true}
+						type="password"
 						setValue={setPassword}
 						error={error.password}
 					/>

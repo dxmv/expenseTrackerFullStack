@@ -93,7 +93,7 @@ export default function Login() {
 					<TextInput
 						label="Password:"
 						value={loginState.password}
-						password={true}
+						type="password"
 						setValue={setPassword}
 						error={error.password}
 					/>

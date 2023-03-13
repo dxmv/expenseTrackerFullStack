@@ -7,6 +7,6 @@
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
-	outline: hidden;
+	outline: none;
 	font-family: "Raleway", sans-serif;
 }

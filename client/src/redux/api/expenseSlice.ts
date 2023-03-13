@@ -22,8 +22,22 @@ export const expenseApi = apiSlice.injectEndpoints({
 				url: `${MAIN_URL}/${body}`,
 			}),
 		}),
+		createExpense: build.mutation<
+			{ success: boolean; data: IExpense[] },
+			{ title: string; price: number; description?: string }
+		>({
+			query: body => ({
+				url: `${MAIN_URL}`,
+				method: "POST",
+				body,
+			}),
+		}),
 	}),
 	overrideExisting: false,
 });
 
-export const { useGetExpensesQuery, useGetExpensesByDateQuery } = expenseApi;
+export const {
+	useGetExpensesQuery,
+	useGetExpensesByDateQuery,
+	useCreateExpenseMutation,
+} = expenseApi;

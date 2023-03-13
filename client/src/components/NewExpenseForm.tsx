@@ -1,4 +1,6 @@
+import { title } from "process";
 import React, { useState } from "react";
+import { useCreateExpenseMutation } from "../redux/api/expenseSlice";
 import Button from "./Button";
 import TextArea from "./TextArea";
 import TextInput from "./TextInput";
@@ -28,17 +30,33 @@ export default function NewExpenseForm() {
 		descriptionError: "",
 		priceError: "",
 	});
+	const [createExpense] = useCreateExpenseMutation();
 
-	const handleSubmit = () => {};
+	const handleSubmit = async (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault();
+		try {
+			const res = await createExpense(expense).unwrap();
+			console.log(res);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
-	const setTitle = (val: string) => {};
-	const setPrice = (val: string) => {};
-	const setDescription = (val: string) => {};
+	const setTitle = (val: string) => {
+		setExpense(prev => ({ ...prev, title: val }));
+	};
+	const setPrice = (val: string) => {
+		setExpense(prev => ({ ...prev, price: Number(val) }));
+	};
+	const setDescription = (val: string) => {
+		setExpense(prev => ({ ...prev, description: val }));
+	};
 
 	return (
 		<form className="flex flex-col">
 			<div className="grid grid-cols-2 gap-3 mb-3">
-				{/* <input type="text" className="bg-myGray" /> */}
 				<TextInput
 					label="Title:"
 					value={expense.title}
@@ -59,7 +77,19 @@ export default function NewExpenseForm() {
 				setValue={setDescription}
 				label="Description"
 			/>
-			<Button text="Submit" onClick={handleSubmit} className={""} />
+			<Button
+				text="Submit"
+				onClick={handleSubmit}
+				className={"disabled:bg-darkGreen"}
+				disabled={
+					expense.title === "" ||
+					expense.price === 0 ||
+					error.priceError !== "" ||
+					error.formError !== "" ||
+					error.descriptionError !== "" ||
+					error.titleError !== ""
+				}
+			/>
 		</form>
 	);
 }

@@ -1,9 +1,9 @@
 import { IFormError } from "../types";
 
 export const setFormError = (
-	setError: React.Dispatch<React.SetStateAction<IFormError>>,
+	setError: React.Dispatch<React.SetStateAction<any>>,
 	value: string,
 	key: string
 ): void => {
-	setError(prev => ({ ...prev, [key]: value }));
+	setError((prev: any) => ({ ...prev, [key]: value }));
 };

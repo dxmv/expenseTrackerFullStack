@@ -45,7 +45,8 @@ const ExpenseComponent = ({ expense }: { expense: IExpense }) => {
 	return (
 		<tr className="w-full table-row text-left border-b-2">
 			<td className="p-3   ">{expense.title}</td>
-			<td className="p-3  ">No description</td>
+			{/* Limit desc charachters*/}
+			<td className="p-3  ">{expense.description ?? "No description"}</td>
 			<td className="p-3   ">{expense.price}</td>
 		</tr>
 	);

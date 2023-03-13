@@ -1,6 +1,7 @@
-import { title } from "process";
 import React, { useState } from "react";
 import { useCreateExpenseMutation } from "../redux/api/expenseSlice";
+import { IFormError } from "../types";
+import { setFormError } from "../utils/formError";
 import Button from "./Button";
 import TextArea from "./TextArea";
 import TextInput from "./TextInput";
@@ -17,6 +18,9 @@ interface IErrors {
 	descriptionError: string;
 	formError: string;
 }
+
+const MAX_TITLE: number = 25,
+	MAX_DESC: number = 50;
 
 export default function NewExpenseForm() {
 	const [expense, setExpense] = useState<INewExpense>({
@@ -39,18 +43,43 @@ export default function NewExpenseForm() {
 		try {
 			const res = await createExpense(expense).unwrap();
 			console.log(res);
-		} catch (e) {
-			console.log(e);
+		} catch (e: any) {
+			setFormError(setError, (e as Error).message, "formError");
+			setTitle("");
+			setDescription("");
 		}
 	};
 
 	const setTitle = (val: string) => {
+		if (val.length > MAX_TITLE) {
+			setFormError(
+				setError,
+				`Title can't be longer than ${MAX_TITLE} characters`,
+				"titleError"
+			);
+		} else {
+			setFormError(setError, "", "titleError");
+		}
 		setExpense(prev => ({ ...prev, title: val }));
 	};
 	const setPrice = (val: string) => {
+		if (Number(val) < 0) {
+			setFormError(setError, "Price can't be less than 0", "priceError");
+		} else {
+			setFormError(setError, "", "priceError");
+		}
 		setExpense(prev => ({ ...prev, price: Number(val) }));
 	};
 	const setDescription = (val: string) => {
+		if (val.length > MAX_DESC) {
+			setFormError(
+				setError,
+				`Description can't be longer than ${MAX_DESC} characters`,
+				"descriptionError"
+			);
+		} else {
+			setFormError(setError, "", "descriptionError");
+		}
 		setExpense(prev => ({ ...prev, description: val }));
 	};
 
@@ -71,6 +100,7 @@ export default function NewExpenseForm() {
 					type="number"
 				/>
 			</div>
+			{/* Textarea error show */}
 			<TextArea
 				value={expense.description}
 				error={error.descriptionError}
